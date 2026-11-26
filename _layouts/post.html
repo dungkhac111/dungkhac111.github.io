@@ -1,0 +1,33 @@
+---
+layout: default
+---
+<article class="post-content">
+  <div class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <span class="post-date">{{ page.date | date: "%B %d, %Y" }}</span>
+      {% if page.tags.size > 0 %}
+      <span class="post-tags">
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    {% if page.description %}
+    <p class="post-description">{{ page.description }}</p>
+    {% endif %}
+  </div>
+
+  {% if page.toc %}
+  <div class="toc-container">
+    <h3>Table of Contents</h3>
+    * TOC
+    {:toc}
+  </div>
+  {% endif %}
+
+  <div class="post-body">
+    {{ content }}
+  </div>
+</article>

@@ -1,0 +1,35 @@
+---
+layout: default
+---
+{{ content }}
+
+<section class="posts-section">
+  <h2 class="section-title"><span class="accent">#</span> Recent Write-ups</h2>
+
+  {% if site.posts.size > 0 %}
+  <div class="post-list">
+    {% for post in site.posts %}
+    <article class="post-card">
+      <div class="post-card-header">
+        <time class="post-card-date">{{ post.date | date: "%Y-%m-%d" }}</time>
+        {% if post.tags.size > 0 %}
+        <div class="post-card-tags">
+          {% for tag in post.tags limit:3 %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <h3 class="post-card-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h3>
+      {% if post.description %}
+      <p class="post-card-desc">{{ post.description | truncate: 200 }}</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-posts">No write-ups published yet.</p>
+  {% endif %}
+</section>
