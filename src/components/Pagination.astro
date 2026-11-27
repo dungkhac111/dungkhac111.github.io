@@ -1,0 +1,55 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+function pageUrl(page: number): string {
+  if (page === 1) return baseUrl;
+  return `${baseUrl}${baseUrl.endsWith('/') ? '' : '/'}page/${page}`;
+}
+---
+
+{
+  totalPages > 1 && (
+    <nav class="flex items-center justify-center gap-2 mt-12 font-mono text-xs" aria-label="Pagination">
+      {
+        currentPage > 1 && (
+          <a
+            href={pageUrl(currentPage - 1)}
+            class="px-3.5 py-2 rounded-lg bg-white/90 dark:bg-[#0b1324]/90 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-sky-400 hover:border-sky-500/40 transition-all shadow-sm"
+          >
+            &lt; PREV
+          </a>
+        )
+      }
+      {
+        Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <a
+            href={pageUrl(page)}
+            class={`px-3.5 py-2 rounded-lg border transition-all ${
+              page === currentPage
+                ? 'bg-sky-500 text-slate-950 font-bold border-sky-400 shadow-md shadow-sky-500/20'
+                : 'bg-white/90 dark:bg-[#0b1324]/90 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-sky-400 hover:border-sky-500/40 shadow-sm'
+            }`}
+          >
+            {page}
+          </a>
+        ))
+      }
+      {
+        currentPage < totalPages && (
+          <a
+            href={pageUrl(currentPage + 1)}
+            class="px-3.5 py-2 rounded-lg bg-white/90 dark:bg-[#0b1324]/90 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-sky-400 hover:border-sky-500/40 transition-all shadow-sm"
+          >
+            NEXT &gt;
+          </a>
+        )
+      }
+    </nav>
+  )
+}

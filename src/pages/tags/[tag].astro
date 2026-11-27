@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { resolveCover } from '../_imageStore';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags || []) {
+      tags.add(tag);
+    }
+  }
+  return Array.from(tags).map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+
+// The CVE tag is superseded by the dedicated archive.
+if (tag === 'CVE') return Astro.redirect('/cve');
+
+const allPosts = await getCollection('blog');
+
+const filtered = allPosts
+  .filter((post) => (post.data.tags || []).includes(tag!))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const postData = filtered.map((p) => ({
+  ...p,
+  slug: p.id,
+  data: {
+    ...p.data,
+    cover: resolveCover('blog', p.id, p.data.cover),
+  },
+}));
+---
+
+<BlogLayout title={`Tag: #${tag}`}>
+  <div class="mb-8 pb-3 border-b border-slate-200 dark:border-slate-800 font-mono">
+    <div class="flex items-center gap-2 text-xs text-sky-400 mb-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+      <span>~/research/tags/#{tag}</span>
+    </div>
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
+        <span class="text-sky-400">&gt;</span>
+        <span>#{tag}</span>
+      </h1>
+      <span class="text-xs px-2.5 py-1 rounded-md bg-slate-900 text-sky-400 border border-sky-500/30">
+        {filtered.length} RESEARCH ENTRIES
+      </span>
+    </div>
+  </div>
+
+  <PostList posts={postData} />
+</BlogLayout>

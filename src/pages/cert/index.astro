@@ -1,0 +1,106 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+const certs = [
+  // Add your certifications here. Example:
+  // {
+  //   name: 'eJPTv2',
+  //   issuer: 'INE / eLearnSecurity',
+  //   date: '2026-10',
+  //   credentialUrl: 'https://certs.ine.com/...',
+  //   badge: '/cert/ejptv2.png',
+  //   description: 'eLearnSecurity Junior Penetration Tester v2',
+  // },
+] as {
+  name: string;
+  issuer: string;
+  date: string;
+  credentialUrl?: string;
+  badge?: string;
+  description?: string;
+}[];
+---
+
+<BlogLayout title="Certifications" description="Security certifications earned by Zept.">
+  <div class="mb-8 pb-3 border-b border-slate-200 dark:border-slate-800 font-mono">
+    <div class="flex items-center gap-2 text-xs mb-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+      <span class="text-slate-400">~/research/</span>
+      <span class="text-sky-400">cert</span>
+    </div>
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
+        <span class="text-sky-400">&gt;</span>
+        <span>Certifications</span>
+      </h1>
+      <span class="text-xs px-2.5 py-1 rounded-md bg-sky-950/60 text-sky-400 border border-sky-500/30">
+        {certs.length} Earned
+      </span>
+    </div>
+    <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400 font-sans max-w-3xl">
+      Professional security certifications and credentials.
+    </p>
+  </div>
+
+  {certs.length > 0 ? (
+    <div class="grid sm:grid-cols-2 gap-5">
+      {certs.map((cert) => (
+        <div class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b1324] p-5 hover:border-sky-500/40 hover:shadow-lg hover:shadow-sky-950/20 transition-all">
+          <div class="flex items-start gap-4">
+            {cert.badge && (
+              <img
+                src={cert.badge}
+                alt={cert.name}
+                class="w-16 h-16 rounded-xl object-contain bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-1.5"
+                loading="lazy"
+              />
+            )}
+            <div class="flex-1 min-w-0">
+              <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 font-mono group-hover:text-sky-400 transition-colors">
+                {cert.name}
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-mono">
+                {cert.issuer}
+              </p>
+              <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 font-mono">
+                {cert.date}
+              </p>
+              {cert.description && (
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 font-sans">
+                  {cert.description}
+                </p>
+              )}
+              {cert.credentialUrl && (
+                <a
+                  href={cert.credentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 mt-3 text-xs font-mono text-sky-400 hover:text-sky-300 transition-colors"
+                >
+                  <span>Verify credential</span>
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div class="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-[#0b1324]/50 p-10 text-center font-mono">
+      <div class="text-4xl mb-4 opacity-30">
+        <svg class="w-12 h-12 mx-auto text-sky-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+        </svg>
+      </div>
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        <span class="text-sky-400">&gt;</span> Certifications will be added here soon.
+      </p>
+      <p class="text-xs text-slate-400 dark:text-slate-500 mt-2">
+        Edit <code class="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-sky-400">src/pages/cert/index.astro</code> to add your certs.
+      </p>
+    </div>
+  )}
+</BlogLayout>

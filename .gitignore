@@ -1,0 +1,7 @@
+node_modules/
+.astro/
+dist/
+upctf/
+upcve/
+.env
+.DS_Store
